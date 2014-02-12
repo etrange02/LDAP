@@ -15,6 +15,10 @@ import javax.swing.JPanel;
 public class Frame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	private JButton slaveButton;
+	private JButton monitoringButton;
+	private SlavesPanel slavePanel;
+	private MonitoringPanel monitoringPanel;
 
 	public Frame() {
 		super();
@@ -65,14 +69,48 @@ public class Frame extends JFrame {
 		
 		JPanel grid = new JPanel();
 		grid.setLayout(new GridLayout(2, 1));
-		grid.add(new JButton("Slaves"));
-		grid.add(new JButton("Monitoring"));
+		
+		slaveButton = new JButton("Slaves");
+		slaveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				showSlavesPanel();
+			}
+		});
+		
+		monitoringButton = new JButton("Monitoring");
+		monitoringButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				showMonitoringPanel();
+			}
+		});
+		
+		grid.add(slaveButton);
+		grid.add(monitoringButton);
 		container.add(grid, BorderLayout.NORTH);
 		
 		container.add(new PlanTestTree(), BorderLayout.CENTER);
 
 	    this.add(container, BorderLayout.WEST);
-	    this.add(new SlavesPanel(), BorderLayout.CENTER);
+	    slavePanel = new SlavesPanel();
+	    slavePanel.setVisible(false);
+	    
+	    monitoringPanel = new MonitoringPanel();
+	    monitoringPanel.setVisible(false);
+	    
+	    JPanel center = new JPanel();
+	    center.add(slavePanel);
+	    center.add(monitoringPanel);
+	    this.add(center, BorderLayout.CENTER);
+	}
+	
+	private void showSlavesPanel() {
+		slavePanel.setVisible(true);
+		monitoringPanel.setVisible(false);
+	}
+	
+	private void showMonitoringPanel() {
+		monitoringPanel.setVisible(true);
+		slavePanel.setVisible(false);
 	}
 
 }

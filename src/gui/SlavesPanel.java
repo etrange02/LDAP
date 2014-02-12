@@ -1,11 +1,15 @@
 package gui;
 
-import javax.swing.JList;
+import java.awt.GridLayout;
+
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 public class SlavesPanel extends JPanel {
+
+	private static final long serialVersionUID = 1L;
 
 	public SlavesPanel() {
 		super();
@@ -21,5 +25,11 @@ public class SlavesPanel extends JPanel {
 		};
 		JTable table = new JTable(data, titles);
 		this.add(new JScrollPane(table));
+		
+		JPanel grid = new JPanel();
+		grid.setLayout(new GridLayout(2, 1));
+		grid.add(new JButton("Add"));
+		grid.add(new JButton("Remove"));
+		this.add(grid);
 	}
 }
