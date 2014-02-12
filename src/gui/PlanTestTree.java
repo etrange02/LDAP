@@ -1,8 +1,9 @@
 package gui;
 
-import java.awt.Dimension;
-
 import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+
 
 public class PlanTestTree extends JTree {
 
@@ -10,10 +11,12 @@ public class PlanTestTree extends JTree {
 	
 	public PlanTestTree() {
 		super();
-		this.setPreferredSize(new Dimension(150, 300));
+		//this.setPreferredSize(new Dimension(150, 300));
 		
-		this.removeAll();
-		
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode("root");
+		DefaultTreeModel model = new DefaultTreeModel(root);
+		root.add(new DefaultMutableTreeNode("fils !"));
+		this.setModel(model);
 	}
 
 }
