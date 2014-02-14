@@ -19,6 +19,7 @@ public class Frame extends JFrame {
 	private JButton monitoringButton;
 	private SlavesPanel slavePanel;
 	private MonitoringPanel monitoringPanel;
+	private PlanTestTree planTestTree;
 
 	public Frame() {
 		super();
@@ -70,47 +71,48 @@ public class Frame extends JFrame {
 		JPanel grid = new JPanel();
 		grid.setLayout(new GridLayout(2, 1));
 		
-		slaveButton = new JButton("Slaves");
-		slaveButton.addActionListener(new ActionListener() {
+		this.slaveButton = new JButton("Slaves");
+		this.slaveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				showSlavesPanel();
 			}
 		});
 		
-		monitoringButton = new JButton("Monitoring");
-		monitoringButton.addActionListener(new ActionListener() {
+		this.monitoringButton = new JButton("Monitoring");
+		this.monitoringButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				showMonitoringPanel();
 			}
 		});
 		
-		grid.add(slaveButton);
-		grid.add(monitoringButton);
+		grid.add(this.slaveButton);
+		grid.add(this.monitoringButton);
 		container.add(grid, BorderLayout.NORTH);
 		
-		container.add(new PlanTestTree(), BorderLayout.CENTER);
+		this.planTestTree = new PlanTestTree();
+		container.add(this.planTestTree, BorderLayout.CENTER);
 
 	    this.add(container, BorderLayout.WEST);
-	    slavePanel = new SlavesPanel();
-	    slavePanel.setVisible(false);
+	    this.slavePanel = new SlavesPanel();
+	    this.slavePanel.setVisible(false);
 	    
-	    monitoringPanel = new MonitoringPanel();
-	    monitoringPanel.setVisible(false);
+	    this.monitoringPanel = new MonitoringPanel();
+	    this.monitoringPanel.setVisible(false);
 	    
 	    JPanel center = new JPanel();
-	    center.add(slavePanel);
-	    center.add(monitoringPanel);
+	    center.add(this.slavePanel);
+	    center.add(this.monitoringPanel);
 	    this.add(center, BorderLayout.CENTER);
 	}
 	
 	private void showSlavesPanel() {
-		slavePanel.setVisible(true);
-		monitoringPanel.setVisible(false);
+		this.slavePanel.setVisible(true);
+		this.monitoringPanel.setVisible(false);
 	}
 	
 	private void showMonitoringPanel() {
-		monitoringPanel.setVisible(true);
-		slavePanel.setVisible(false);
+		this.monitoringPanel.setVisible(true);
+		this.slavePanel.setVisible(false);
 	}
 
 }
