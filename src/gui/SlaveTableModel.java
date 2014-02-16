@@ -49,6 +49,7 @@ public class SlaveTableModel extends AbstractTableModel {
 		for (Object[] value : this.data) {
 			if (rowIndex != index)
 			{
+				value[0] = "" + (i+1);
 				temp[i++] = value;
 			}
 			++index;

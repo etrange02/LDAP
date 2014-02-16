@@ -2,12 +2,11 @@ package gui;
 
 import java.awt.event.ActionEvent;
 
-
-public class WorkloadPanel extends AbstractTestPanel {
+public class ScalabilityPanel extends AbstractTestPanel {
 
 	private static final long serialVersionUID = 1L;
-	
-	public WorkloadPanel() {
+
+	public ScalabilityPanel() {
 		super();
 		initPanel();
 	}
@@ -23,5 +22,5 @@ public class WorkloadPanel extends AbstractTestPanel {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 }

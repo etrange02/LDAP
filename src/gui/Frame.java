@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,6 +13,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+
+import tools.Constants;
 
 public class Frame extends JFrame {
 
@@ -20,6 +24,7 @@ public class Frame extends JFrame {
 	private SlavesPanel slavePanel;
 	private MonitoringPanel monitoringPanel;
 	private PlanTestTree planTestTree;
+	private TestPanel testPanel;
 
 	public Frame() {
 		super();
@@ -28,8 +33,8 @@ public class Frame extends JFrame {
 	}
 
 	private void initialize() {
-		this.setTitle("PerfTest");
-		this.setSize(800, 600);
+		this.setTitle(Constants.TITLE);
+		this.setSize(Constants.FRAME_SIZE_X, Constants.FRAME_SIZE_Y);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.initMenu();
@@ -40,16 +45,16 @@ public class Frame extends JFrame {
 		JMenuBar bar = new JMenuBar();
 		this.setJMenuBar(bar);
 
-		JMenu fileMenu = new JMenu("File");
+		JMenu fileMenu = new JMenu(Constants.MENU_FILE);
 
-		JMenu newMenu = new JMenu("New");
+		JMenu newMenu = new JMenu(Constants.MENU_FILE_NEW);
 
-		JMenuItem newWorkloadItem = new JMenuItem("Workload test");
-		JMenuItem newScalabilityItem = new JMenuItem("Scalability test");
-		JMenuItem openItem = new JMenuItem("Open");
-		JMenuItem saveItem = new JMenuItem("Save");
+		JMenuItem newScalabilityItem = new JMenuItem(Constants.MENU_FILE_NEW_SCALABILITY);
+		JMenuItem newWorkloadItem = new JMenuItem(Constants.MENU_FILE_NEW_WORKLOAD);
+		JMenuItem openItem = new JMenuItem(Constants.MENU_FILE_OPEN);
+		JMenuItem saveItem = new JMenuItem(Constants.MENU_FILE_SAVE);
 
-		JMenuItem quitItem = new JMenuItem("Quit");
+		JMenuItem quitItem = new JMenuItem(Constants.MENU_FILE_QUIT);
 		quitItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -71,14 +76,14 @@ public class Frame extends JFrame {
 		JPanel grid = new JPanel();
 		grid.setLayout(new GridLayout(2, 1));
 		
-		this.slaveButton = new JButton("Slaves");
+		this.slaveButton = new JButton(Constants.FRAME_SLAVES);
 		this.slaveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				showSlavesPanel();
 			}
 		});
 		
-		this.monitoringButton = new JButton("Monitoring");
+		this.monitoringButton = new JButton(Constants.FRAME_MONITORING);
 		this.monitoringButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				showMonitoringPanel();
@@ -89,8 +94,17 @@ public class Frame extends JFrame {
 		grid.add(this.monitoringButton);
 		container.add(grid, BorderLayout.NORTH);
 		
-		this.planTestTree = new PlanTestTree();
+		testPanel = new TestPanel();
+		this.planTestTree = new PlanTestTree(this.testPanel);
 		container.add(this.planTestTree, BorderLayout.CENTER);
+		this.planTestTree.addFocusListener(new FocusListener() {
+			public void focusLost(FocusEvent arg0) {
+			}
+			
+			public void focusGained(FocusEvent arg0) {
+				showTestPanel();
+			}
+		});
 
 	    this.add(container, BorderLayout.WEST);
 	    this.slavePanel = new SlavesPanel();
@@ -102,17 +116,26 @@ public class Frame extends JFrame {
 	    JPanel center = new JPanel();
 	    center.add(this.slavePanel);
 	    center.add(this.monitoringPanel);
+	    center.add(this.testPanel);
 	    this.add(center, BorderLayout.CENTER);
 	}
 	
 	private void showSlavesPanel() {
 		this.slavePanel.setVisible(true);
 		this.monitoringPanel.setVisible(false);
+		this.testPanel.setVisible(false);
 	}
 	
 	private void showMonitoringPanel() {
 		this.monitoringPanel.setVisible(true);
 		this.slavePanel.setVisible(false);
+		this.testPanel.setVisible(false);
+	}
+	
+	private void showTestPanel() {
+		this.monitoringPanel.setVisible(false);
+		this.slavePanel.setVisible(false);
+		this.testPanel.setVisible(true);
 	}
 
 }

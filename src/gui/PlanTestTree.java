@@ -1,19 +1,12 @@
 package gui;
 
-import java.awt.Component;
-import java.awt.PopupMenu;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.event.TreeSelectionEvent;
@@ -21,6 +14,8 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
+
+import tools.Constants;
 
 
 public class PlanTestTree extends JTree {
@@ -31,15 +26,22 @@ public class PlanTestTree extends JTree {
 	private JPopupMenu popupMenuPlan;
 	private JPopupMenu popupMenuTest;
 	private JPopupMenu popupMenuInstruction;
+	private TestPanel testPanel;
 	
-	public PlanTestTree() {
+	public PlanTestTree(TestPanel testplan) {
 		super();
 		//this.setPreferredSize(new Dimension(150, 300));
 		
-		this.root = new DefaultMutableTreeNode("Plan test");
+		
+		this.root = new DefaultMutableTreeNode(Constants.TREE_PLAN_TEST);
 		this.model = new DefaultTreeModel(root);
-		root.add(new DefaultMutableTreeNode("fils !"));
+		DefaultMutableTreeNode node = new DefaultMutableTreeNode("fils !");
+		root.add(node);
 		this.setModel(model);
+		
+		this.testPanel = testplan;
+		this.testPanel.addNode(root);
+		this.testPanel.addNode(node, new ScalabilityPanel());
 		//this.setEditable(true);
 		//this.setRootVisible(false);
 		
@@ -71,17 +73,6 @@ public class PlanTestTree extends JTree {
 			}
 		});
 		
-		
-		this.addFocusListener(new FocusListener() {
-			public void focusLost(FocusEvent arg0) {
-				treeFocusLost(arg0);				
-			}
-			
-			public void focusGained(FocusEvent arg0) {
-				treeFocusGained(arg0);
-			}
-		});
-		
 		this.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
 				treeValueChanged(e);
@@ -94,25 +85,25 @@ public class PlanTestTree extends JTree {
 		});
 		
 		this.popupMenuPlan = new JPopupMenu();
-		JMenuItem scalabilityItem = new JMenuItem("Add scalability test");
-		JMenuItem workloadItem = new JMenuItem("Add workload test");
+		JMenuItem scalabilityItem = new JMenuItem(Constants.TREE_POPUPMENU_ADD_SCALABILITY);
+		JMenuItem workloadItem = new JMenuItem(Constants.TREE_POPUPMENU_ADD_WORKLOAD);
 		this.popupMenuPlan.add(scalabilityItem);
 		this.popupMenuPlan.add(workloadItem);
 		
 		this.popupMenuTest = new JPopupMenu();
-		JMenuItem addInstruction = new JMenuItem("Add new instruction");
-		JMenuItem renameTest = new JMenuItem("Rename test");
+		JMenuItem addInstruction = new JMenuItem(Constants.TREE_POPUPMENU_ADD_INSTRUCTION);
+		JMenuItem renameTest = new JMenuItem(Constants.TREE_POPUPMENU_RENAME_TEST);
 		this.popupMenuTest.add(addInstruction);
 		this.popupMenuTest.add(renameTest);
 		
 		this.popupMenuInstruction = new JPopupMenu();
-		JMenuItem removeInstruction = new JMenuItem("Remove instruction");
-		JMenuItem renameInstruction = new JMenuItem("Rename instruction");
+		JMenuItem removeInstruction = new JMenuItem(Constants.TREE_POPUPMENU_REMOVE_INSTRUCTION);
+		JMenuItem renameInstruction = new JMenuItem(Constants.TREE_POPUPMENU_RENAME_INSTRUCTION);
 		this.popupMenuInstruction.add(removeInstruction);
 		this.popupMenuInstruction.add(renameInstruction);
 	}
 	
-	private void addTest() {
+	/*private void addTest() {
 		System.out.println("addTest");
 	}
 	
@@ -126,18 +117,14 @@ public class PlanTestTree extends JTree {
 	
 	private void removeInstruction() {
 		System.out.println("removeInstruction");
-	}
-	
-	private void treeFocusLost(FocusEvent e) {
-		System.out.println("focusLost");
-	}
-	
-	private void treeFocusGained(FocusEvent e) {
-		System.out.println("focusGained");
-	}
+	}*/
 	
 	private void treeValueChanged(TreeSelectionEvent e) {
 		System.out.println("valueChanged");
+		int[] selected = this.getSelectionRows();
+		if (selected.length > 0/* && this.root != e.getPath().getLastPathComponent()*/ ) {
+			this.testPanel.showAssociatedPanel((DefaultMutableTreeNode) e.getPath().getLastPathComponent());
+		}
 	}
 	
 	private void treeMousePressed(MouseEvent e) {

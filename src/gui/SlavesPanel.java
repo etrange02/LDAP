@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import tools.Constants;
+
 public class SlavesPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -29,9 +31,9 @@ public class SlavesPanel extends JPanel {
 		JPanel grid = new JPanel();
 		grid.setLayout(new GridLayout(1, 3));
 		
-		this.addButton= new JButton("Add");
-		this.removeButton = new JButton("Remove");
-		this.autodetectButton = new JButton("Auto detect");
+		this.addButton= new JButton(Constants.SLAVES_ADD);
+		this.removeButton = new JButton(Constants.SLAVES_REMOVE);
+		this.autodetectButton = new JButton(Constants.SLAVES_AUTODETECT);
 		
 		this.addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -54,7 +56,7 @@ public class SlavesPanel extends JPanel {
 		grid.add(this.autodetectButton);
 		this.add(grid, BorderLayout.NORTH);
 		
-		String titles[] = {"Id", "IP address"};
+		String titles[] = {Constants.SLAVES_ID, Constants.SLAVES_IP_ADDRESS};
 		Object[][] data = {
 				{"1", "213.254.132.132"},
 				{"2", "123.123.123.123"}
